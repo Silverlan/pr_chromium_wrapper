@@ -17,7 +17,7 @@ namespace cef {
 		};
 		virtual ~WebDownloadHandler() override;
 		virtual bool OnBeforeDownload(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item, const CefString &suggested_name, CefRefPtr<CefBeforeDownloadCallback> callback) override;
-		virtual void OnDownloadUpdated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item, CefRefPtr<CefDownloadItemCallback> callback);
+		virtual void OnDownloadUpdated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item, CefRefPtr<CefDownloadItemCallback> callback) override;
 		void SetDownloadLocation(std::string location);
 		void SetStartCallback(const std::function<void(uint32_t, const std::string &)> &startCallback) { m_startCallback = startCallback; }
 		void SetUpdateCallback(const std::function<void(uint32_t, DownloadInfo::State, int32_t)> &updateCallback) { m_updateCallback = updateCallback; }
