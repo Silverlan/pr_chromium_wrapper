@@ -53,11 +53,17 @@ void cef::WebDownloadHandler::UpdateDownload(uint32_t id, std::optional<Download
 }
 void cef::WebDownloadHandler::SetDownloadLocation(std::string location)
 {
+	char separator;
+#ifdef _WIN32
+	separator = '\\';
+#else
+	separator = '/';
+#endif
 	for(auto &c : location) {
-		if(c == '/')
-			c = '\\';
+		if(c == '/' || c == '\\')
+			c = separator;
 	}
 	m_downloadLocation = std::move(location);
-	if(!m_downloadLocation.empty() && m_downloadLocation.back() != '\\')
-		m_downloadLocation += '\\';
+	if(!m_downloadLocation.empty() && m_downloadLocation.back() != separator)
+		m_downloadLocation += separator;
 }
