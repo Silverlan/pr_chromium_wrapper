@@ -6,8 +6,8 @@ pr_add_library(${PROJ_NAME} SHARED)
 pr_add_headers(${PROJ_NAME} "include/")
 pr_add_sources(${PROJ_NAME} "src/")
 
-pr_add_external_dependency(${PROJ_NAME} chromium LIBRARY PUBLIC)
-pr_add_external_dependency(${PROJ_NAME} libcef_dll_wrapper LIBRARY PUBLIC)
+find_package(cef REQUIRED)
+pr_add_third_party_dependency(${PROJ_NAME} cef PUBLIC)
 
 if(MSVC)
 	target_compile_definitions(${PROJ_NAME} PRIVATE -D_UNICODE -DUNICODE -DNOMINMAX)
