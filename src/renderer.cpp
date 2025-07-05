@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: (c) 2022 Silverlan <opensource@pragma-engine.com>
+// SPDX-License-Identifier: MIT
+
 #include "renderer.hpp"
 #include "browser_process.hpp"
 #include "browser_render_process_handler.hpp"

@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: (c) 2022 Silverlan <opensource@pragma-engine.com>
+// SPDX-License-Identifier: MIT
+
 #ifndef __PR_CHROMIUM_DOWNLOAD_HANDLER_HPP__
 #define __PR_CHROMIUM_DOWNLOAD_HANDLER_HPP__
 

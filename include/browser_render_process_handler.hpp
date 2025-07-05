@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: (c) 2022 Silverlan <opensource@pragma-engine.com>
+// SPDX-License-Identifier: MIT
+
 #ifndef __BROWSERRENDERPROCESSHANDLER_HPP__
 #define __BROWSERRENDERPROCESSHANDLER_HPP__
 

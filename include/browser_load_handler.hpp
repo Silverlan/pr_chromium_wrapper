@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: (c) 2022 Silverlan <opensource@pragma-engine.com>
+// SPDX-License-Identifier: MIT
+
 #ifndef __BROWSER_LOAD_HANDLER_HPP__
 #define __BROWSER_LOAD_HANDLER_HPP__
 
