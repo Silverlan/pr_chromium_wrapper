@@ -45,6 +45,7 @@ class WebRenderHandler : public CefRenderHandler {
 	void SetRefPtr(cef::CWebRenderHandler *ptr) { m_refPtr = ptr; }
 	const std::vector<Rect> &GetDirtyRects() const;
 	void ClearDirtyRects();
+	bool IsRendererSizeMismatched() const;
 	IMPLEMENT_REFCOUNTING(WebRenderHandler);
   private:
 	struct ImageData {
@@ -57,6 +58,7 @@ class WebRenderHandler : public CefRenderHandler {
 	cef::CWebRenderHandler *m_refPtr = nullptr;
 	void *m_userData = nullptr;
 	std::vector<Rect> m_dirtyRects;
+	bool m_rendererSizeMismatch = false;
 	void (*m_fGetRootScreenRect)(cef::CWebRenderHandler *, int &, int &, int &, int &) = nullptr;
 	void (*m_fGetViewRect)(cef::CWebRenderHandler *, int &, int &, int &, int &) = nullptr;
 	void (*m_fGetScreenPoint)(cef::CWebRenderHandler *, int, int, int &, int &) = nullptr;

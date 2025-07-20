@@ -9,13 +9,14 @@
 namespace cef {
 	class BrowserProcess : public CefApp {
 	  public:
-		BrowserProcess();
+		BrowserProcess(bool subProcess);
 		virtual ~BrowserProcess() override;
 		virtual CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() override;
 		virtual void OnBeforeCommandLineProcessing(const CefString &process_type, CefRefPtr<CefCommandLine> command_line) override;
 	  private:
 		IMPLEMENT_REFCOUNTING(BrowserProcess);
 		CefRefPtr<CefRenderProcessHandler> m_renderProcessHandler = nullptr;
+		bool m_subProcess;
 	};
 };
 
