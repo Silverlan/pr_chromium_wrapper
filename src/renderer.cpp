@@ -188,7 +188,66 @@ CefRefPtr<CefApp> CreateBrowserProcessApp(bool subProcess) {
 	return new cef::BrowserProcess(subProcess);
 }
 
-static bool initialize_chromium(bool subProcess, const char *pathToSubProcess, const char *cachePath, int subprocessArgc = 0, char **subprocessArgv = nullptr)
+static std::string cef_exit_code_to_string(int exitCode) {
+  switch (exitCode) {
+    case CEF_RESULT_CODE_NORMAL_EXIT:
+      return "CEF_RESULT_CODE_NORMAL_EXIT";
+    case CEF_RESULT_CODE_KILLED:
+      return "CEF_RESULT_CODE_KILLED";
+    case CEF_RESULT_CODE_HUNG:
+      return "CEF_RESULT_CODE_HUNG";
+    case CEF_RESULT_CODE_KILLED_BAD_MESSAGE:
+      return "CEF_RESULT_CODE_KILLED_BAD_MESSAGE";
+    case CEF_RESULT_CODE_GPU_DEAD_ON_ARRIVAL:
+      return "CEF_RESULT_CODE_GPU_DEAD_ON_ARRIVAL";
+
+    case CEF_RESULT_CODE_MISSING_DATA:
+      return "CEF_RESULT_CODE_MISSING_DATA";
+    case CEF_RESULT_CODE_UNSUPPORTED_PARAM:
+      return "CEF_RESULT_CODE_UNSUPPORTED_PARAM";
+    case CEF_RESULT_CODE_PROFILE_IN_USE:
+      return "CEF_RESULT_CODE_PROFILE_IN_USE";
+    case CEF_RESULT_CODE_PACK_EXTENSION_ERROR:
+      return "CEF_RESULT_CODE_PACK_EXTENSION_ERROR";
+    case CEF_RESULT_CODE_NORMAL_EXIT_PROCESS_NOTIFIED:
+      return "CEF_RESULT_CODE_NORMAL_EXIT_PROCESS_NOTIFIED";
+    case CEF_RESULT_CODE_INVALID_SANDBOX_STATE:
+      return "CEF_RESULT_CODE_INVALID_SANDBOX_STATE";
+    case CEF_RESULT_CODE_CLOUD_POLICY_ENROLLMENT_FAILED:
+      return "CEF_RESULT_CODE_CLOUD_POLICY_ENROLLMENT_FAILED";
+    case CEF_RESULT_CODE_GPU_EXIT_ON_CONTEXT_LOST:
+      return "CEF_RESULT_CODE_GPU_EXIT_ON_CONTEXT_LOST";
+    case CEF_RESULT_CODE_NORMAL_EXIT_PACK_EXTENSION_SUCCESS:
+      return "CEF_RESULT_CODE_NORMAL_EXIT_PACK_EXTENSION_SUCCESS";
+    case CEF_RESULT_CODE_SYSTEM_RESOURCE_EXHAUSTED:
+      return "CEF_RESULT_CODE_SYSTEM_RESOURCE_EXHAUSTED";
+
+    case CEF_RESULT_CODE_SANDBOX_FATAL_INTEGRITY:
+      return "CEF_RESULT_CODE_SANDBOX_FATAL_INTEGRITY";
+    case CEF_RESULT_CODE_SANDBOX_FATAL_DROPTOKEN:
+      return "CEF_RESULT_CODE_SANDBOX_FATAL_DROPTOKEN";
+    case CEF_RESULT_CODE_SANDBOX_FATAL_FLUSHANDLES:
+      return "CEF_RESULT_CODE_SANDBOX_FATAL_FLUSHANDLES";
+    case CEF_RESULT_CODE_SANDBOX_FATAL_CACHEDISABLE:
+      return "CEF_RESULT_CODE_SANDBOX_FATAL_CACHEDISABLE";
+    case CEF_RESULT_CODE_SANDBOX_FATAL_CLOSEHANDLES:
+      return "CEF_RESULT_CODE_SANDBOX_FATAL_CLOSEHANDLES";
+    case CEF_RESULT_CODE_SANDBOX_FATAL_MITIGATION:
+      return "CEF_RESULT_CODE_SANDBOX_FATAL_MITIGATION";
+    case CEF_RESULT_CODE_SANDBOX_FATAL_MEMORY_EXCEEDED:
+      return "CEF_RESULT_CODE_SANDBOX_FATAL_MEMORY_EXCEEDED";
+    case CEF_RESULT_CODE_SANDBOX_FATAL_WARMUP:
+      return "CEF_RESULT_CODE_SANDBOX_FATAL_WARMUP";
+    case CEF_RESULT_CODE_SANDBOX_FATAL_BROKER_SHUTDOWN_HUNG:
+      return "CEF_RESULT_CODE_SANDBOX_FATAL_BROKER_SHUTDOWN_HUNG";
+  	default:
+  		break;
+  }
+	static_assert(CEF_RESULT_CODE_NUM_VALUES == 7016, "Update this list when new enum values have been added in CEF!");
+	return "Unknown error (" +std::to_string(exitCode) +")";
+}
+
+static bool initialize_chromium(bool subProcess, const char *pathToSubProcess, const char *cachePath, std::string &outErr, int subprocessArgc = 0, char **subprocessArgv = nullptr)
 {
 	static auto initialized = false;
 	if(initialized == true)
@@ -222,8 +281,10 @@ static bool initialize_chromium(bool subProcess, const char *pathToSubProcess, c
 		//we're subprocess; passthrough.
 
 		auto result = CefExecuteProcess(args, g_process, nullptr); // ???
-		if(result >= 0)
+		if(result >= 0) {
+			outErr = "CefExecuteProcess failed with error code " +std::to_string(result) +"!";
 			return false;
+		}
 		return true;
 	}
 
@@ -249,6 +310,8 @@ static bool initialize_chromium(bool subProcess, const char *pathToSubProcess, c
 #if defined(__linux__)
 		restore_prime_env(envs);
 #endif
+		auto exitCode = CefGetExitCode();
+		outErr = "CefInitialize failed: " +cef_exit_code_to_string(exitCode) +" (Exit code " +std::to_string(exitCode) +")!";
 		return false;
 	}
 #if defined(__linux__)
@@ -307,11 +370,12 @@ namespace cef {
 };
 #include <thread>
 extern "C" {
-DLL_PR_CHROMIUM bool pr_chromium_initialize(const char *pathToSubProcess, const char *cachePath) { return initialize_chromium(false, pathToSubProcess, cachePath); }
+DLL_PR_CHROMIUM bool pr_chromium_initialize(const char *pathToSubProcess, const char *cachePath, std::string &outErr) { return initialize_chromium(false, pathToSubProcess, cachePath, outErr); }
 DLL_PR_CHROMIUM void pr_chromium_close() { close_chromium(); }
 DLL_PR_CHROMIUM bool pr_chromium_subprocess(int subprocessArgc, char **subprocessArgv)
 {
-	if(initialize_chromium(true, "", "", subprocessArgc, subprocessArgv) == false)
+	std::string err;
+	if(initialize_chromium(true, "", "", err, subprocessArgc, subprocessArgv) == false)
 		return false;
 	close_chromium();
 	return true;
