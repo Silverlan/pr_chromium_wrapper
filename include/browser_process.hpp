@@ -9,7 +9,7 @@
 namespace cef {
 	class BrowserProcess : public CefApp {
 	  public:
-		BrowserProcess(bool subProcess);
+		BrowserProcess(bool subProcess, bool disableGpu);
 		virtual ~BrowserProcess() override;
 		virtual CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() override;
 		virtual void OnBeforeCommandLineProcessing(const CefString &process_type, CefRefPtr<CefCommandLine> command_line) override;
@@ -17,6 +17,7 @@ namespace cef {
 		IMPLEMENT_REFCOUNTING(BrowserProcess);
 		CefRefPtr<CefRenderProcessHandler> m_renderProcessHandler = nullptr;
 		bool m_subProcess;
+		bool m_disableGpu;
 	};
 };
 

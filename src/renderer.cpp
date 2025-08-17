@@ -8,6 +8,7 @@
 #include "browserclient.hpp"
 #include "display_handler.hpp"
 //#include "zygote_handler.hpp"
+
 #include <cstring>
 #include <include/cef_parser.h>
 
@@ -146,27 +147,29 @@ enum class ProcessType : uint8_t {
 	Browser = 0,
 	Renderer,
 	Other,
-  };
-static ProcessType GetProcessType(const CefRefPtr<CefCommandLine>& command_line) {
+};
+static ProcessType GetProcessType(const CefRefPtr<CefCommandLine> &command_line)
+{
 	// The command-line flag won't be specified for the browser process.
-	if (!command_line->HasSwitch(kProcessType))
+	if(!command_line->HasSwitch(kProcessType))
 		return ProcessType::Browser;
 
-	const std::string& process_type = command_line->GetSwitchValue(kProcessType);
-	if (process_type == kRendererProcess)
+	const std::string &process_type = command_line->GetSwitchValue(kProcessType);
+	if(process_type == kRendererProcess)
 		return ProcessType::Renderer;
 
 #if defined(OS_LINUX)
 	// On Linux the zygote process is used to spawn other process types. Since we
 	// don't know what type of process it will be we give it the renderer app.
-	if (process_type == kZygoteProcess)
+	if(process_type == kZygoteProcess)
 		return ProcessType::Renderer;
 #endif
 
 	return ProcessType::Other;
 }
 
-static CefRefPtr<CefCommandLine> CreateCommandLine(const CefMainArgs& main_args) {
+static CefRefPtr<CefCommandLine> CreateCommandLine(const CefMainArgs &main_args)
+{
 	CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
 #if defined(OS_WIN)
 	command_line->InitFromString(::GetCommandLineW());
@@ -176,85 +179,78 @@ static CefRefPtr<CefCommandLine> CreateCommandLine(const CefMainArgs& main_args)
 	return command_line;
 }
 
-CefRefPtr<CefApp> CreateRendererProcessApp() {
-	return nullptr;
-}
+CefRefPtr<CefApp> CreateRendererProcessApp() { return nullptr; }
 
-CefRefPtr<CefApp> CreateOtherProcessApp() {
-	return nullptr;
-}
+CefRefPtr<CefApp> CreateOtherProcessApp() { return nullptr; }
 
-CefRefPtr<CefApp> CreateBrowserProcessApp(bool subProcess) {
-	return new cef::BrowserProcess(subProcess);
-}
+CefRefPtr<CefApp> CreateBrowserProcessApp(bool subProcess, bool disableGpu) { return new cef::BrowserProcess(subProcess, disableGpu); }
 
-static std::string cef_exit_code_to_string(int exitCode) {
-  switch (exitCode) {
-    case CEF_RESULT_CODE_NORMAL_EXIT:
-      return "CEF_RESULT_CODE_NORMAL_EXIT";
-    case CEF_RESULT_CODE_KILLED:
-      return "CEF_RESULT_CODE_KILLED";
-    case CEF_RESULT_CODE_HUNG:
-      return "CEF_RESULT_CODE_HUNG";
-    case CEF_RESULT_CODE_KILLED_BAD_MESSAGE:
-      return "CEF_RESULT_CODE_KILLED_BAD_MESSAGE";
-    case CEF_RESULT_CODE_GPU_DEAD_ON_ARRIVAL:
-      return "CEF_RESULT_CODE_GPU_DEAD_ON_ARRIVAL";
+static std::string cef_exit_code_to_string(int exitCode)
+{
+	switch(exitCode) {
+	case CEF_RESULT_CODE_NORMAL_EXIT:
+		return "CEF_RESULT_CODE_NORMAL_EXIT";
+	case CEF_RESULT_CODE_KILLED:
+		return "CEF_RESULT_CODE_KILLED";
+	case CEF_RESULT_CODE_HUNG:
+		return "CEF_RESULT_CODE_HUNG";
+	case CEF_RESULT_CODE_KILLED_BAD_MESSAGE:
+		return "CEF_RESULT_CODE_KILLED_BAD_MESSAGE";
+	case CEF_RESULT_CODE_GPU_DEAD_ON_ARRIVAL:
+		return "CEF_RESULT_CODE_GPU_DEAD_ON_ARRIVAL";
 
-    case CEF_RESULT_CODE_MISSING_DATA:
-      return "CEF_RESULT_CODE_MISSING_DATA";
-    case CEF_RESULT_CODE_UNSUPPORTED_PARAM:
-      return "CEF_RESULT_CODE_UNSUPPORTED_PARAM";
-    case CEF_RESULT_CODE_PROFILE_IN_USE:
-      return "CEF_RESULT_CODE_PROFILE_IN_USE";
-    case CEF_RESULT_CODE_PACK_EXTENSION_ERROR:
-      return "CEF_RESULT_CODE_PACK_EXTENSION_ERROR";
-    case CEF_RESULT_CODE_NORMAL_EXIT_PROCESS_NOTIFIED:
-      return "CEF_RESULT_CODE_NORMAL_EXIT_PROCESS_NOTIFIED";
-    case CEF_RESULT_CODE_INVALID_SANDBOX_STATE:
-      return "CEF_RESULT_CODE_INVALID_SANDBOX_STATE";
-    case CEF_RESULT_CODE_CLOUD_POLICY_ENROLLMENT_FAILED:
-      return "CEF_RESULT_CODE_CLOUD_POLICY_ENROLLMENT_FAILED";
-    case CEF_RESULT_CODE_GPU_EXIT_ON_CONTEXT_LOST:
-      return "CEF_RESULT_CODE_GPU_EXIT_ON_CONTEXT_LOST";
-    case CEF_RESULT_CODE_NORMAL_EXIT_PACK_EXTENSION_SUCCESS:
-      return "CEF_RESULT_CODE_NORMAL_EXIT_PACK_EXTENSION_SUCCESS";
-    case CEF_RESULT_CODE_SYSTEM_RESOURCE_EXHAUSTED:
-      return "CEF_RESULT_CODE_SYSTEM_RESOURCE_EXHAUSTED";
+	case CEF_RESULT_CODE_MISSING_DATA:
+		return "CEF_RESULT_CODE_MISSING_DATA";
+	case CEF_RESULT_CODE_UNSUPPORTED_PARAM:
+		return "CEF_RESULT_CODE_UNSUPPORTED_PARAM";
+	case CEF_RESULT_CODE_PROFILE_IN_USE:
+		return "CEF_RESULT_CODE_PROFILE_IN_USE";
+	case CEF_RESULT_CODE_PACK_EXTENSION_ERROR:
+		return "CEF_RESULT_CODE_PACK_EXTENSION_ERROR";
+	case CEF_RESULT_CODE_NORMAL_EXIT_PROCESS_NOTIFIED:
+		return "CEF_RESULT_CODE_NORMAL_EXIT_PROCESS_NOTIFIED";
+	case CEF_RESULT_CODE_INVALID_SANDBOX_STATE:
+		return "CEF_RESULT_CODE_INVALID_SANDBOX_STATE";
+	case CEF_RESULT_CODE_CLOUD_POLICY_ENROLLMENT_FAILED:
+		return "CEF_RESULT_CODE_CLOUD_POLICY_ENROLLMENT_FAILED";
+	case CEF_RESULT_CODE_GPU_EXIT_ON_CONTEXT_LOST:
+		return "CEF_RESULT_CODE_GPU_EXIT_ON_CONTEXT_LOST";
+	case CEF_RESULT_CODE_NORMAL_EXIT_PACK_EXTENSION_SUCCESS:
+		return "CEF_RESULT_CODE_NORMAL_EXIT_PACK_EXTENSION_SUCCESS";
+	case CEF_RESULT_CODE_SYSTEM_RESOURCE_EXHAUSTED:
+		return "CEF_RESULT_CODE_SYSTEM_RESOURCE_EXHAUSTED";
 
-    case CEF_RESULT_CODE_SANDBOX_FATAL_INTEGRITY:
-      return "CEF_RESULT_CODE_SANDBOX_FATAL_INTEGRITY";
-    case CEF_RESULT_CODE_SANDBOX_FATAL_DROPTOKEN:
-      return "CEF_RESULT_CODE_SANDBOX_FATAL_DROPTOKEN";
-    case CEF_RESULT_CODE_SANDBOX_FATAL_FLUSHANDLES:
-      return "CEF_RESULT_CODE_SANDBOX_FATAL_FLUSHANDLES";
-    case CEF_RESULT_CODE_SANDBOX_FATAL_CACHEDISABLE:
-      return "CEF_RESULT_CODE_SANDBOX_FATAL_CACHEDISABLE";
-    case CEF_RESULT_CODE_SANDBOX_FATAL_CLOSEHANDLES:
-      return "CEF_RESULT_CODE_SANDBOX_FATAL_CLOSEHANDLES";
-    case CEF_RESULT_CODE_SANDBOX_FATAL_MITIGATION:
-      return "CEF_RESULT_CODE_SANDBOX_FATAL_MITIGATION";
-    case CEF_RESULT_CODE_SANDBOX_FATAL_MEMORY_EXCEEDED:
-      return "CEF_RESULT_CODE_SANDBOX_FATAL_MEMORY_EXCEEDED";
-    case CEF_RESULT_CODE_SANDBOX_FATAL_WARMUP:
-      return "CEF_RESULT_CODE_SANDBOX_FATAL_WARMUP";
-    case CEF_RESULT_CODE_SANDBOX_FATAL_BROKER_SHUTDOWN_HUNG:
-      return "CEF_RESULT_CODE_SANDBOX_FATAL_BROKER_SHUTDOWN_HUNG";
-  	default:
-  		break;
-  }
+	case CEF_RESULT_CODE_SANDBOX_FATAL_INTEGRITY:
+		return "CEF_RESULT_CODE_SANDBOX_FATAL_INTEGRITY";
+	case CEF_RESULT_CODE_SANDBOX_FATAL_DROPTOKEN:
+		return "CEF_RESULT_CODE_SANDBOX_FATAL_DROPTOKEN";
+	case CEF_RESULT_CODE_SANDBOX_FATAL_FLUSHANDLES:
+		return "CEF_RESULT_CODE_SANDBOX_FATAL_FLUSHANDLES";
+	case CEF_RESULT_CODE_SANDBOX_FATAL_CACHEDISABLE:
+		return "CEF_RESULT_CODE_SANDBOX_FATAL_CACHEDISABLE";
+	case CEF_RESULT_CODE_SANDBOX_FATAL_CLOSEHANDLES:
+		return "CEF_RESULT_CODE_SANDBOX_FATAL_CLOSEHANDLES";
+	case CEF_RESULT_CODE_SANDBOX_FATAL_MITIGATION:
+		return "CEF_RESULT_CODE_SANDBOX_FATAL_MITIGATION";
+	case CEF_RESULT_CODE_SANDBOX_FATAL_MEMORY_EXCEEDED:
+		return "CEF_RESULT_CODE_SANDBOX_FATAL_MEMORY_EXCEEDED";
+	case CEF_RESULT_CODE_SANDBOX_FATAL_WARMUP:
+		return "CEF_RESULT_CODE_SANDBOX_FATAL_WARMUP";
+	case CEF_RESULT_CODE_SANDBOX_FATAL_BROKER_SHUTDOWN_HUNG:
+		return "CEF_RESULT_CODE_SANDBOX_FATAL_BROKER_SHUTDOWN_HUNG";
+	default:
+		break;
+	}
 	static_assert(CEF_RESULT_CODE_NUM_VALUES == 7016, "Update this list when new enum values have been added in CEF!");
-	return "Unknown error (" +std::to_string(exitCode) +")";
+	return "Unknown error (" + std::to_string(exitCode) + ")";
 }
 
-static bool initialize_chromium(bool subProcess, const char *pathToSubProcess, const char *cachePath, std::string &outErr, int subprocessArgc = 0, char **subprocessArgv = nullptr)
+static bool initialize_chromium(bool subProcess, const char *pathToSubProcess, const char *cachePath, bool cpuRenderingOnly, std::string &outErr, int subprocessArgc = 0, char **subprocessArgv = nullptr)
 {
 	static auto initialized = false;
 	if(initialized == true)
 		return (g_process != nullptr) ? true : false;
 	initialized = true;
-
-
 
 #ifdef __linux__
 	CefMainArgs args(subprocessArgc, subprocessArgv);
@@ -264,16 +260,16 @@ static bool initialize_chromium(bool subProcess, const char *pathToSubProcess, c
 
 	CefRefPtr<CefApp> app;
 	CefRefPtr<CefCommandLine> command_line = CreateCommandLine(args);
-	switch (GetProcessType(command_line)) {
-		case ProcessType::Browser:
-			app = CreateBrowserProcessApp(subProcess);
-			break;
-		case ProcessType::Renderer:
-			app = CreateRendererProcessApp();
-			break;
-		case ProcessType::Other:
-			app = CreateOtherProcessApp();
-			break;
+	switch(GetProcessType(command_line)) {
+	case ProcessType::Browser:
+		app = CreateBrowserProcessApp(subProcess, cpuRenderingOnly);
+		break;
+	case ProcessType::Renderer:
+		app = CreateRendererProcessApp();
+		break;
+	case ProcessType::Other:
+		app = CreateOtherProcessApp();
+		break;
 	}
 	g_process = app;
 
@@ -282,7 +278,7 @@ static bool initialize_chromium(bool subProcess, const char *pathToSubProcess, c
 
 		auto result = CefExecuteProcess(args, g_process, nullptr); // ???
 		if(result >= 0) {
-			outErr = "CefExecuteProcess failed with error code " +std::to_string(result) +"!";
+			outErr = "CefExecuteProcess failed with error code " + std::to_string(result) + "!";
 			return false;
 		}
 		return true;
@@ -311,7 +307,7 @@ static bool initialize_chromium(bool subProcess, const char *pathToSubProcess, c
 		restore_prime_env(envs);
 #endif
 		auto exitCode = CefGetExitCode();
-		outErr = "CefInitialize failed: " +cef_exit_code_to_string(exitCode) +" (Exit code " +std::to_string(exitCode) +")!";
+		outErr = "CefInitialize failed: " + cef_exit_code_to_string(exitCode) + " (Exit code " + std::to_string(exitCode) + ")!";
 		return false;
 	}
 #if defined(__linux__)
@@ -370,12 +366,12 @@ namespace cef {
 };
 #include <thread>
 extern "C" {
-DLL_PR_CHROMIUM bool pr_chromium_initialize(const char *pathToSubProcess, const char *cachePath, std::string &outErr) { return initialize_chromium(false, pathToSubProcess, cachePath, outErr); }
+DLL_PR_CHROMIUM bool pr_chromium_initialize(const char *pathToSubProcess, const char *cachePath, bool cpuRenderingOnly, std::string &outErr) { return initialize_chromium(false, pathToSubProcess, cachePath, cpuRenderingOnly, outErr); }
 DLL_PR_CHROMIUM void pr_chromium_close() { close_chromium(); }
 DLL_PR_CHROMIUM bool pr_chromium_subprocess(int subprocessArgc, char **subprocessArgv)
 {
 	std::string err;
-	if(initialize_chromium(true, "", "", err, subprocessArgc, subprocessArgv) == false)
+	if(initialize_chromium(true, "", "", false, err, subprocessArgc, subprocessArgv) == false)
 		return false;
 	close_chromium();
 	return true;
@@ -478,13 +474,12 @@ DLL_PR_CHROMIUM void pr_chromium_browser_release(cef::CWebBrowser *browser)
 DLL_PR_CHROMIUM void pr_chromium_browser_close(cef::CWebBrowser *browser) { (*browser)->GetHost()->CloseBrowser(true); }
 DLL_PR_CHROMIUM bool pr_chromium_browser_try_close(cef::CWebBrowser *browser) { return (*browser)->GetHost()->TryCloseBrowser(); }
 DLL_PR_CHROMIUM void *pr_chromium_browser_get_user_data(cef::CWebBrowser *browser) { return static_cast<WebBrowserClient *>((*browser)->GetHost()->GetClient().get())->GetUserData(); }
-DLL_PR_CHROMIUM void pr_chromium_browser_was_resized(cef::CWebBrowser *browser) {
+DLL_PR_CHROMIUM void pr_chromium_browser_was_resized(cef::CWebBrowser *browser)
+{
 	(*browser)->GetHost()->WasResized();
 	(*browser)->GetHost()->Invalidate(PET_VIEW);
 }
-DLL_PR_CHROMIUM void pr_chromium_browser_invalidate(cef::CWebBrowser *browser) {
-	(*browser)->GetHost()->Invalidate(PET_VIEW);
-}
+DLL_PR_CHROMIUM void pr_chromium_browser_invalidate(cef::CWebBrowser *browser) { (*browser)->GetHost()->Invalidate(PET_VIEW); }
 
 DLL_PR_CHROMIUM void pr_chromium_render_handler_set_image_data(cef::CWebRenderHandler *renderHandler, void *ptr, uint32_t w, uint32_t h) { (*renderHandler)->SetImageData(ptr, w, h); }
 DLL_PR_CHROMIUM void pr_chromium_render_handler_get_dirty_rects(cef::CWebRenderHandler *renderHandler, const std::tuple<int, int, int, int> **rectsPtr, uint32_t &numRects)
