@@ -1,12 +1,13 @@
 // SPDX-FileCopyrightText: (c) 2022 Silverlan <opensource@pragma-engine.com>
 // SPDX-License-Identifier: MIT
 
-#ifndef __BROWSER_V8_HANDLER_HPP__
-#define __BROWSER_V8_HANDLER_HPP__
+module;
 
 #include <include/cef_v8.h>
 
-namespace cef {
+export module pragma.modules.chromium.wrapper:browser_v8_handler;
+
+export namespace cef {
 	class BrowserV8Handler : public CefV8Handler {
 	  public:
 		BrowserV8Handler() = default;
@@ -15,5 +16,3 @@ namespace cef {
 		IMPLEMENT_REFCOUNTING(BrowserV8Handler);
 	};
 };
-
-#endif

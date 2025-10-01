@@ -1,13 +1,14 @@
 // SPDX-FileCopyrightText: (c) 2022 Silverlan <opensource@pragma-engine.com>
 // SPDX-License-Identifier: MIT
 
-#ifndef __BROWSERRENDERPROCESSHANDLER_HPP__
-#define __BROWSERRENDERPROCESSHANDLER_HPP__
+module;
 
 #include <include/cef_base.h>
 #include <include/cef_render_process_handler.h>
 
-namespace cef {
+export module pragma.modules.chromium.wrapper:browser_render_process_handler;
+
+export namespace cef {
 	class BrowserRenderProcessHandler : public CefRenderProcessHandler {
 	  public:
 		virtual ~BrowserRenderProcessHandler() override;
@@ -24,5 +25,3 @@ namespace cef {
 		IMPLEMENT_REFCOUNTING(BrowserRenderProcessHandler);
 	};
 };
-
-#endif

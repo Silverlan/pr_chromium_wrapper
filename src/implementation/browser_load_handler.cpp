@@ -1,8 +1,13 @@
 // SPDX-FileCopyrightText: (c) 2022 Silverlan <opensource@pragma-engine.com>
 // SPDX-License-Identifier: MIT
 
-#include "browser_load_handler.hpp"
-#include "browserclient.hpp"
+module;
+
+#include <include/cef_load_handler.h>
+
+module pragma.modules.chromium.wrapper;
+
+import :browser_load_handler;
 
 cef::BrowserLoadHandler::BrowserLoadHandler() : CefLoadHandler {} {}
 cef::BrowserLoadHandler::~BrowserLoadHandler() {}

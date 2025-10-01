@@ -1,8 +1,14 @@
 // SPDX-FileCopyrightText: (c) 2022 Silverlan <opensource@pragma-engine.com>
 // SPDX-License-Identifier: MIT
 
-#include "download_handler.hpp"
+module;
+
 #include <iostream>
+#include <include/cef_download_handler.h>
+
+module pragma.modules.chromium.wrapper;
+
+import :download_handler;
 
 cef::WebDownloadHandler::~WebDownloadHandler() {}
 bool cef::WebDownloadHandler::OnBeforeDownload(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item, const CefString &suggested_name, CefRefPtr<CefBeforeDownloadCallback> callback)

@@ -1,14 +1,14 @@
 // SPDX-FileCopyrightText: (c) 2022 Silverlan <opensource@pragma-engine.com>
 // SPDX-License-Identifier: MIT
 
-#ifndef __BROWSER_LOAD_HANDLER_HPP__
-#define __BROWSER_LOAD_HANDLER_HPP__
+module;
 
 #include <include/cef_load_handler.h>
 #include <functional>
 
-class WebBrowserClient;
-namespace cef {
+export module pragma.modules.chromium.wrapper:browser_load_handler;
+
+export namespace cef {
 	class BrowserLoadHandler : public CefLoadHandler {
 	  public:
 		BrowserLoadHandler();
@@ -29,5 +29,3 @@ namespace cef {
 		std::function<void(ErrorCode, const CefString &, const CefString &)> m_onLoadError = nullptr;
 	};
 };
-
-#endif

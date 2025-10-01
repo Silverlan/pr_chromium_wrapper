@@ -1,8 +1,14 @@
 // SPDX-FileCopyrightText: (c) 2022 Silverlan <opensource@pragma-engine.com>
 // SPDX-License-Identifier: MIT
 
-#include "display_handler.hpp"
+module;
+
+#include <include/cef_display_handler.h>
 #include <iostream>
+
+module pragma.modules.chromium.wrapper;
+
+import :display_handler;
 
 void cef::WebDisplayHandler::OnAddressChange(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString &url)
 {

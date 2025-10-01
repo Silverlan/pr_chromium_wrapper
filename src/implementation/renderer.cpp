@@ -1,21 +1,30 @@
 // SPDX-FileCopyrightText: (c) 2022 Silverlan <opensource@pragma-engine.com>
 // SPDX-License-Identifier: MIT
 
-#include "renderer.hpp"
-#include "browser_process.hpp"
-#include "browser_render_process_handler.hpp"
-#include "browser_load_handler.hpp"
-#include "browserclient.hpp"
-#include "display_handler.hpp"
+module;
+
 //#include "zygote_handler.hpp"
 
 #include <cstring>
+#include <include/cef_app.h>
 #include <include/cef_parser.h>
+#include <thread>
 
 #if defined(__linux__)
 #include <cstdlib> //for unsetenv
 #endif
 //#include <atlstr.h>
+
+module pragma.modules.chromium.wrapper;
+
+import :renderer;
+import :audio_handler;
+import :browser_client;
+import :browser_load_handler;
+import :browser_process;
+import :display_handler;
+import :download_handler;
+import :javascript;
 
 WebRenderHandler::WebRenderHandler(cef::BrowserProcess *process, void (*fGetRootScreenRect)(cef::CWebRenderHandler *, int &, int &, int &, int &), void (*fGetViewRect)(cef::CWebRenderHandler *, int &, int &, int &, int &),
   void (*fGetScreenPoint)(cef::CWebRenderHandler *, int, int, int &, int &))
@@ -316,7 +325,7 @@ static bool initialize_chromium(bool subProcess, const char *pathToSubProcess, c
 #endif
 	return true;
 }
-#include <thread>
+
 static void close_chromium()
 {
 	g_process = nullptr;
@@ -324,7 +333,6 @@ static void close_chromium()
 	//std::this_thread::sleep_for(std::chrono::seconds{1});
 }
 
-#include "util_javascript.hpp"
 namespace cef {
 	std::vector<cef::JavaScriptFunction> g_globalJavaScriptFunctions;
 }

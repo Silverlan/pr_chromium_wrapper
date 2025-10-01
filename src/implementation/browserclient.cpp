@@ -1,11 +1,27 @@
 // SPDX-FileCopyrightText: (c) 2022 Silverlan <opensource@pragma-engine.com>
 // SPDX-License-Identifier: MIT
 
-#include "browserclient.hpp"
-#include "display_handler.hpp"
-#include "renderer.hpp"
+module;
 
 #include <iostream>
+#include <include/cef_client.h>
+#include <include/cef_browser.h>
+#include <include/cef_render_handler.h>
+#include <include/cef_audio_handler.h>
+#include <include/cef_download_handler.h>
+#include <include/cef_life_span_handler.h>
+#include <include/cef_display_handler.h>
+#include <include/cef_load_handler.h>
+
+module pragma.modules.chromium.wrapper;
+
+import :audio_handler;
+import :browser_client;
+import :browser_load_handler;
+import :display_handler;
+import :download_handler;
+import :renderer;
+
 WebBrowserClient::WebBrowserClient(WebRenderHandler *renderHandler, cef::WebAudioHandler *audioHandler, cef::WebLifeSpanHandler *lifeSpanHandler, cef::WebDownloadHandler *dlHandler)
     : m_renderHandler {renderHandler}, m_audioHandler {audioHandler}, m_downloadHandler {dlHandler}, m_lifeSpanHandler {lifeSpanHandler}
 {

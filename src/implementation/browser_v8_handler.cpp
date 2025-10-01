@@ -1,9 +1,15 @@
 // SPDX-FileCopyrightText: (c) 2022 Silverlan <opensource@pragma-engine.com>
 // SPDX-License-Identifier: MIT
 
-#include "browser_v8_handler.hpp"
-#include "util_javascript.hpp"
+module;
+
 #include <iostream>
+#include <include/cef_v8.h>
+
+module pragma.modules.chromium.wrapper;
+
+import :browser_v8_handler;
+import :javascript;
 
 static CefRefPtr<CefV8Value> js_to_cef_value(const cef::JSValue &jsVal)
 {
