@@ -15,6 +15,5 @@ if(MSVC)
 endif()
 
 add_subdirectory("subprocess")
-pr_add_dependency(pr_chromium_subprocess ${PROJ_NAME} TARGET PUBLIC)
 
 pr_finalize(${PROJ_NAME})
