@@ -5,7 +5,6 @@ module;
 
 #include <include/cef_audio_handler.h>
 #include <include/cef_life_span_handler.h>
-#include <atomic>
 
 export module pragma.modules.chromium.wrapper:audio_handler;
 

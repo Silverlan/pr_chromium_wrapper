@@ -3,14 +3,11 @@
 
 module;
 
-#include <iostream>
 #include <include/cef_app.h>
-#include <include/cef_render_process_handler.h>
 
 module pragma.modules.chromium.wrapper;
 
 import :browser_process;
-import :browser_render_process_handler;
 
 cef::BrowserProcess::BrowserProcess(bool subProcess, bool disableGpu) : m_subProcess {subProcess}, m_disableGpu {disableGpu} { m_renderProcessHandler = new BrowserRenderProcessHandler(); }
 

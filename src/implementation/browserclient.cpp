@@ -3,24 +3,11 @@
 
 module;
 
-#include <iostream>
 #include <include/cef_client.h>
-#include <include/cef_browser.h>
-#include <include/cef_render_handler.h>
-#include <include/cef_audio_handler.h>
-#include <include/cef_download_handler.h>
-#include <include/cef_life_span_handler.h>
-#include <include/cef_display_handler.h>
-#include <include/cef_load_handler.h>
 
 module pragma.modules.chromium.wrapper;
 
-import :audio_handler;
-import :browser_client;
-import :browser_load_handler;
-import :display_handler;
-import :download_handler;
-import :renderer;
+import :browserclient;
 
 WebBrowserClient::WebBrowserClient(WebRenderHandler *renderHandler, cef::WebAudioHandler *audioHandler, cef::WebLifeSpanHandler *lifeSpanHandler, cef::WebDownloadHandler *dlHandler)
     : m_renderHandler {renderHandler}, m_audioHandler {audioHandler}, m_downloadHandler {dlHandler}, m_lifeSpanHandler {lifeSpanHandler}

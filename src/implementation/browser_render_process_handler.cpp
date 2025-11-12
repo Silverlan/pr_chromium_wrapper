@@ -5,14 +5,10 @@ module;
 
 #include <include/cef_base.h>
 #include <include/cef_render_process_handler.h>
-#include <iostream>
 
 module pragma.modules.chromium.wrapper;
 
-import :browser_load_handler;
 import :browser_render_process_handler;
-import :browser_v8_handler;
-import :javascript;
 
 namespace cef {
 	extern std::vector<JavaScriptFunction> g_globalJavaScriptFunctions;

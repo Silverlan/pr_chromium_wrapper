@@ -3,28 +3,17 @@
 
 module;
 
-//#include "zygote_handler.hpp"
-
-#include <cstring>
-#include <include/cef_app.h>
+#include <include/cef_render_handler.h>
 #include <include/cef_parser.h>
-#include <thread>
+#include <include/cef_app.h>
 
 #if defined(__linux__)
 #include <cstdlib> //for unsetenv
 #endif
-//#include <atlstr.h>
 
 module pragma.modules.chromium.wrapper;
 
 import :renderer;
-import :audio_handler;
-import :browser_client;
-import :browser_load_handler;
-import :browser_process;
-import :display_handler;
-import :download_handler;
-import :javascript;
 
 WebRenderHandler::WebRenderHandler(cef::BrowserProcess *process, void (*fGetRootScreenRect)(cef::CWebRenderHandler *, int &, int &, int &, int &), void (*fGetViewRect)(cef::CWebRenderHandler *, int &, int &, int &, int &),
   void (*fGetScreenPoint)(cef::CWebRenderHandler *, int, int, int &, int &))
@@ -372,7 +361,7 @@ namespace cef {
 		IsRepeat = CapsLockOn << 13u
 	};
 };
-#include <thread>
+
 extern "C" {
 DLL_PR_CHROMIUM bool pr_chromium_initialize(const char *pathToSubProcess, const char *cachePath, bool cpuRenderingOnly, std::string &outErr) { return initialize_chromium(false, pathToSubProcess, cachePath, cpuRenderingOnly, outErr); }
 DLL_PR_CHROMIUM void pr_chromium_close() { close_chromium(); }

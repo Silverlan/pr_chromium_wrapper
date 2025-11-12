@@ -3,13 +3,11 @@
 
 module;
 
-#include <iostream>
 #include <include/cef_v8.h>
 
 module pragma.modules.chromium.wrapper;
 
 import :browser_v8_handler;
-import :javascript;
 
 static CefRefPtr<CefV8Value> js_to_cef_value(const cef::JSValue &jsVal)
 {

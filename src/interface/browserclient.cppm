@@ -4,24 +4,16 @@
 module;
 
 #include <include/cef_client.h>
-#include <include/cef_render_handler.h>
-#include <include/cef_audio_handler.h>
-#include <include/cef_download_handler.h>
-#include <include/cef_life_span_handler.h>
-#include <include/cef_display_handler.h>
-#include <include/cef_load_handler.h>
 
-export module pragma.modules.chromium.wrapper:browser_client;
+export module pragma.modules.chromium.wrapper:browserclient;
+
+export import :audio_handler;
+export import :download_handler;
 
 export {
-	namespace cef {
-		class WebAudioHandler;
-		class WebDownloadHandler;
-		class WebLifeSpanHandler;
-	};
 	class WebRenderHandler;
 	class WebBrowserClient : public CefClient {
-	  public:
+	public:
 		WebBrowserClient(WebRenderHandler *renderHandler, cef::WebAudioHandler *audioHandler, cef::WebLifeSpanHandler *lifeSpanHandler, cef::WebDownloadHandler *dlHandler);
 		virtual ~WebBrowserClient() override;
 		virtual CefRefPtr<CefRenderHandler> GetRenderHandler() override;
@@ -43,7 +35,7 @@ export {
 		void *GetUserData() { return m_userData; }
 
 		IMPLEMENT_REFCOUNTING(WebBrowserClient);
-	  private:
+	private:
 		CefRefPtr<CefRenderHandler> m_renderHandler;
 		CefRefPtr<CefAudioHandler> m_audioHandler;
 		CefRefPtr<CefDownloadHandler> m_downloadHandler;
@@ -54,4 +46,4 @@ export {
 		bool m_bPageLoadedSuccessfully = false;
 		bool m_bPageLoadingStarted = false;
 	};
-};
+}
