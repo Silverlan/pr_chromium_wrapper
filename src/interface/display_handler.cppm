@@ -7,7 +7,7 @@ module;
 
 export module pragma.modules.chromium.wrapper:display_handler;
 
-import std;
+export import std;
 
 export namespace cef {
 	class WebDisplayHandler : public CefDisplayHandler {

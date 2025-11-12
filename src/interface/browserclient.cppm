@@ -13,7 +13,7 @@ export import :download_handler;
 export {
 	class WebRenderHandler;
 	class WebBrowserClient : public CefClient {
-	  public:
+	public:
 		WebBrowserClient(WebRenderHandler *renderHandler, cef::WebAudioHandler *audioHandler, cef::WebLifeSpanHandler *lifeSpanHandler, cef::WebDownloadHandler *dlHandler);
 		virtual ~WebBrowserClient() override;
 		virtual CefRefPtr<CefRenderHandler> GetRenderHandler() override;
@@ -35,7 +35,7 @@ export {
 		void *GetUserData() { return m_userData; }
 
 		IMPLEMENT_REFCOUNTING(WebBrowserClient);
-	  private:
+	private:
 		CefRefPtr<CefRenderHandler> m_renderHandler;
 		CefRefPtr<CefAudioHandler> m_audioHandler;
 		CefRefPtr<CefDownloadHandler> m_downloadHandler;
