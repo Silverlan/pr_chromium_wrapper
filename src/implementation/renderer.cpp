@@ -6,10 +6,7 @@ module;
 #include <include/cef_render_handler.h>
 #include <include/cef_parser.h>
 #include <include/cef_app.h>
-
-#if defined(__linux__)
-#include <cstdlib> //for unsetenv
-#endif
+#include <cstdlib>
 
 module pragma.modules.chromium.wrapper;
 

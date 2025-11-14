@@ -1,6 +1,12 @@
 // SPDX-FileCopyrightText: (c) 2025 Silverlan <opensource@pragma-engine.com>
 // SPDX-License-Identifier: MIT
 
+module;
+
+#ifdef _WIN32
+#include <include/cef_app.h>
+#endif
+
 export module pragma.modules.chromium.wrapper;
 
 export import :audio_handler;

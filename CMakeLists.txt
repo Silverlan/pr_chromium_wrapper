@@ -11,6 +11,9 @@ pr_add_third_party_dependency(${PROJ_NAME} cef PUBLIC)
 if(MSVC)
 	target_compile_definitions(${PROJ_NAME} PRIVATE -D_UNICODE -DUNICODE -DNOMINMAX)
 	target_compile_options(${PROJ_NAME} PRIVATE "/MT")
+
+	# "import std" currently does not work with /MT
+	set_target_properties(${PROJ_NAME} PROPERTIES CXX_MODULE_STD OFF)
 endif()
 
 add_subdirectory("subprocess")

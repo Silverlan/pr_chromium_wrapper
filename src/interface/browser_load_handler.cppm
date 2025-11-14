@@ -4,10 +4,9 @@
 module;
 
 #include <include/cef_load_handler.h>
+#include <functional>
 
 export module pragma.modules.chromium.wrapper:browser_load_handler;
-
-export import std;
 
 export {
 	class WebBrowserClient;

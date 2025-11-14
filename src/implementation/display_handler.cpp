@@ -4,6 +4,7 @@
 module;
 
 #include <include/cef_display_handler.h>
+#include <iostream>
 
 module pragma.modules.chromium.wrapper;
 
