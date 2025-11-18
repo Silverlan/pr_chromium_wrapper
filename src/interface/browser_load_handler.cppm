@@ -12,7 +12,7 @@ export {
 	class WebBrowserClient;
 	namespace cef {
 		class BrowserLoadHandler : public CefLoadHandler {
-		public:
+		  public:
 			BrowserLoadHandler();
 			virtual ~BrowserLoadHandler() override;
 			virtual void OnLoadingStateChange(CefRefPtr<CefBrowser> browser, bool isLoading, bool canGoBack, bool canGoForward) override;
@@ -23,7 +23,7 @@ export {
 			void SetOnLoadStart(std::function<void(TransitionType)> onLoadStart);
 			void SetOnLoadEnd(std::function<void(int)> onLoadEnd);
 			void SetOnLoadError(std::function<void(ErrorCode, const CefString &, const CefString &)> onLoadError);
-		private:
+		  private:
 			IMPLEMENT_REFCOUNTING(BrowserLoadHandler);
 			std::function<void(bool, bool, bool)> m_onLoadingStateChange = nullptr;
 			std::function<void(TransitionType)> m_onLoadStart = nullptr;

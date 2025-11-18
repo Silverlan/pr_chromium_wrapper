@@ -17,7 +17,7 @@ export {
 		using CWebBrowser = CefRefPtr<CefBrowser>;
 	};
 	class WebRenderHandler : public CefRenderHandler {
-	public:
+	  public:
 		using Rect = std::tuple<int, int, int, int>;
 		WebRenderHandler(cef::BrowserProcess *process, void (*fGetRootScreenRect)(cef::CWebRenderHandler *, int &, int &, int &, int &), void (*fGetViewRect)(cef::CWebRenderHandler *, int &, int &, int &, int &), void (*fGetScreenPoint)(cef::CWebRenderHandler *, int, int, int &, int &));
 
@@ -45,7 +45,7 @@ export {
 		void ClearDirtyRects();
 		bool IsRendererSizeMismatched() const;
 		IMPLEMENT_REFCOUNTING(WebRenderHandler);
-	private:
+	  private:
 		struct ImageData {
 			void *dataPtr = nullptr;
 			uint32_t width = 0;
