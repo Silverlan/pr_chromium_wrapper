@@ -1,12 +1,13 @@
 // SPDX-FileCopyrightText: (c) 2022 Silverlan <opensource@pragma-engine.com>
 // SPDX-License-Identifier: MIT
 
-#ifndef __CEFPROCESS_HPP__
-#define __CEFPROCESS_HPP__
+module;
 
 #include <include/cef_app.h>
 
-namespace cef {
+export module pragma.modules.chromium.wrapper:browser_process;
+
+export namespace cef {
 	class BrowserProcess : public CefApp {
 	  public:
 		BrowserProcess(bool subProcess, bool disableGpu);
@@ -20,5 +21,3 @@ namespace cef {
 		bool m_disableGpu;
 	};
 };
-
-#endif

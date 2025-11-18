@@ -1,8 +1,14 @@
 // SPDX-FileCopyrightText: (c) 2022 Silverlan <opensource@pragma-engine.com>
 // SPDX-License-Identifier: MIT
 
-#include "audio_handler.hpp"
-#include <iostream>
+module;
+
+#include <include/cef_audio_handler.h>
+#include <include/cef_life_span_handler.h>
+
+module pragma.modules.chromium.wrapper;
+
+import :audio_handler;
 
 cef::WebLifeSpanHandler::~WebLifeSpanHandler() {}
 void cef::WebLifeSpanHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser) { m_afterCreated = true; }

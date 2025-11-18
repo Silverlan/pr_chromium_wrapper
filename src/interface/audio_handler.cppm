@@ -1,14 +1,14 @@
 // SPDX-FileCopyrightText: (c) 2022 Silverlan <opensource@pragma-engine.com>
 // SPDX-License-Identifier: MIT
 
-#ifndef __PR_CHROMIUM_AUDIO_HANDLER_HPP__
-#define __PR_CHROMIUM_AUDIO_HANDLER_HPP__
+module;
 
 #include <include/cef_audio_handler.h>
 #include <include/cef_life_span_handler.h>
-#include <atomic>
 
-namespace cef {
+export module pragma.modules.chromium.wrapper:audio_handler;
+
+export namespace cef {
 	class WebLifeSpanHandler : public CefLifeSpanHandler {
 	  public:
 		virtual ~WebLifeSpanHandler() override;
@@ -35,5 +35,3 @@ namespace cef {
 		IMPLEMENT_REFCOUNTING(WebAudioHandler);
 	};
 };
-
-#endif

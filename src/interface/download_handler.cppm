@@ -1,14 +1,15 @@
 // SPDX-FileCopyrightText: (c) 2022 Silverlan <opensource@pragma-engine.com>
 // SPDX-License-Identifier: MIT
 
-#ifndef __PR_CHROMIUM_DOWNLOAD_HANDLER_HPP__
-#define __PR_CHROMIUM_DOWNLOAD_HANDLER_HPP__
+module;
 
 #include <include/cef_download_handler.h>
-#include <functional>
-#include <optional>
 
-namespace cef {
+export module pragma.modules.chromium.wrapper:download_handler;
+
+export import std;
+
+export namespace cef {
 	class WebDownloadHandler : public CefDownloadHandler {
 	  public:
 		struct DownloadInfo {
@@ -34,5 +35,3 @@ namespace cef {
 		std::unordered_map<uint32_t, DownloadInfo> m_downloads;
 	};
 };
-
-#endif

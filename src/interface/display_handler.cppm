@@ -1,13 +1,15 @@
 // SPDX-FileCopyrightText: (c) 2022 Silverlan <opensource@pragma-engine.com>
 // SPDX-License-Identifier: MIT
 
-#ifndef __PR_CHROMIUM_DISPLAY_HANDLER_HPP__
-#define __PR_CHROMIUM_DISPLAY_HANDLER_HPP__
+module;
 
 #include <include/cef_display_handler.h>
-#include <functional>
 
-namespace cef {
+export module pragma.modules.chromium.wrapper:display_handler;
+
+export import std;
+
+export namespace cef {
 	class WebDisplayHandler : public CefDisplayHandler {
 	  public:
 		virtual ~WebDisplayHandler() override {}
@@ -19,5 +21,3 @@ namespace cef {
 		std::function<void(std::string)> m_onAddressChange = nullptr;
 	};
 };
-
-#endif
