@@ -4,9 +4,10 @@
 module;
 
 #include <include/cef_display_handler.h>
-#include <functional>
 
 export module pragma.modules.chromium.wrapper:display_handler;
+
+import std;
 
 export namespace cef {
 	class WebDisplayHandler : public CefDisplayHandler {
