@@ -4,6 +4,7 @@
 module;
 
 #include <include/cef_load_handler.h>
+#include <functional>
 
 module pragma.modules.chromium.wrapper;
 

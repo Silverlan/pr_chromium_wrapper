@@ -3,9 +3,10 @@
 
 module;
 
-export module pragma.modules.chromium.wrapper:javascript;
+#include <cinttypes>
+#include <string>
 
-export import std.compat;
+export module pragma.modules.chromium.wrapper:javascript;
 
 export namespace cef {
 	enum class JSValueType : uint32_t { Undefined = 0, Null, Bool, Int, Double, Date, String, Object, Array, Function };

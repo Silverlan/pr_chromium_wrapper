@@ -5,6 +5,7 @@ module;
 
 #include <include/cef_base.h>
 #include <include/cef_render_process_handler.h>
+#include <iostream>
 
 module pragma.modules.chromium.wrapper;
 

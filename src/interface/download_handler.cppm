@@ -4,10 +4,9 @@
 module;
 
 #include <include/cef_download_handler.h>
+#include <functional>
 
 export module pragma.modules.chromium.wrapper:download_handler;
-
-export import std;
 
 export namespace cef {
 	class WebDownloadHandler : public CefDownloadHandler {
