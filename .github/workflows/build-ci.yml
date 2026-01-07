@@ -55,7 +55,7 @@ jobs:
           echo "$(pwd)/cmake_custom/bin" >> $GITHUB_PATH
 
       - name: Debug
-        shell: bash
+        if: runner.os == 'Windows'
         run: |
           echo "=== $GITHUB_PATH contents ==="
           cat "$GITHUB_PATH" || true
@@ -75,7 +75,8 @@ jobs:
           if [ -x cmake_custom/bin/cmake ]; then
             cmake_custom/bin/cmake --version || true
           else
-            echo "no ex
+            echo "no executable at cmake_custom/bin/cmake"
+          fi
 
       - name: Clone Repositories
         shell: bash
