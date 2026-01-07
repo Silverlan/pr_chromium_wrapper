@@ -54,7 +54,8 @@ jobs:
           mkdir cmake_custom
           tar -xf cmake_custom.tar.xz -C cmake_custom --strip-components=1
           
-          echo "$(pwd)/cmake_custom/bin" >> $GITHUB_PATH
+          win_bin="$(pwd -W)/cmake_custom/bin"
+          echo "PATH=$win_bin:${PATH}" >> $GITHUB_ENV
 
       - name: Debug
         shell: bash
