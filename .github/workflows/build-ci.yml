@@ -54,6 +54,29 @@ jobs:
           
           echo "$(pwd)/cmake_custom/bin" >> $GITHUB_PATH
 
+      - name: Debug
+        shell: bash
+        run: |
+          echo "=== $GITHUB_PATH contents ==="
+          cat "$GITHUB_PATH" || true
+
+          echo "=== ls cmake_custom/bin ==="
+          ls -la cmake_custom/bin || true
+
+          echo "=== PATH in this shell ==="
+          echo "$PATH"
+
+          echo "=== which / type / all cmake matches ==="
+          command -v cmake || true
+          which -a cmake || true
+          type -a cmake || true
+
+          echo "=== run cmake from the extracted dir (if present) ==="
+          if [ -x cmake_custom/bin/cmake ]; then
+            cmake_custom/bin/cmake --version || true
+          else
+            echo "no ex
+
       - name: Clone Repositories
         shell: bash
         run: |
