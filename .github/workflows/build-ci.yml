@@ -8,10 +8,6 @@ on:
     inputs:
   schedule:
     - cron: '0 0 * * *'
-    
-concurrency:
-  group: environment-lin-${{ github.ref }}-${{ matrix.config.os }}
-  cancel-in-progress: true
 
 permissions:
   contents: write
