@@ -37,7 +37,11 @@ jobs:
           mkdir cmake_custom
           tar -xf cmake_custom.tar.xz -C cmake_custom --strip-components=1
           
-          echo "$(pwd)/cmake_custom/bin" >> $GITHUB_PATH
+          # make this CMake available to all later steps in this job:
+          echo "$PWD/cmake_custom/bin" >> $GITHUB_PATH
+
+      - name: Verify CMake is the one we installed
+        run: cmake --version
 
       - name: Clone Repositories
         shell: bash
