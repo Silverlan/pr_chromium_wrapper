@@ -24,11 +24,13 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Check out pr_chromium
-        uses: actions/checkout@v6
-        with:
-          repository: 'Silverlan/pr_chromium'
-          ref: "feat/deps"
+      - name: Build Tag Name
+        id: build_tag_name
+        shell: bash
+        run: |
+          git clone -b develop https://github.com/Silverlan/pragma.git
+          cd pragma/modules
+          git clone -b feat/deps https://github.com/Silverlan/pr_chromium.git
 
       - name: Build Tag Name
         id: build_tag_name
@@ -44,7 +46,7 @@ jobs:
 
       - name: Run Python Build Scripts
         shell: bash
-        working-directory: ./build_scripts
+        working-directory: ./pragma/modules/pr_chromium/build_scripts
         run: |
           python -m third_party.cef
           python -m third_party.chromium_wrapper
@@ -53,7 +55,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p release
-          cp -rv build_scripts/deps/staging/. release/
+          cp -rv pragma/modules/pr_chromium/build_scripts/deps/staging/. release/
 
       - name: Release Binaries
         uses: Silverlan/common_actions/release_nightly_binaries@main
