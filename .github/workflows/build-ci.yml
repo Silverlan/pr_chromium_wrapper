@@ -24,9 +24,13 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v2
+
       - name: Clone Repositories
         shell: bash
         run: |
+          # We need pragma for the core build_scripts
           git clone -b develop https://github.com/Silverlan/pragma.git
           cd pragma/modules
           git clone -b feat/deps https://github.com/Silverlan/pr_chromium.git
@@ -40,8 +44,6 @@ jobs:
           else
             echo "tag_name=$(TZ='Europe/Berlin' date +%F)" >> $GITHUB_OUTPUT
           fi
-          echo "FILES:"
-          ls -R
 
       - name: Run Python Build Scripts
         shell: bash
