@@ -25,7 +25,19 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Setup cmake
+        if: runner.os == 'Linux'
         uses: jwlawson/actions-setup-cmake@v2
+
+      - name: Setup Custom CMake (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          # Due to a CMake bug, we need a custom CMake version on Windows for now.
+          curl -L https://github.com/Silverlan/CMake/releases/download/2025-12-23/windows_x64.tar.xz -o cmake_custom.tar.xz
+          
+          mkdir cmake_custom
+          tar -xf cmake_custom.tar.xz -C cmake_custom --strip-components=1
+          
+          echo "$(pwd)/cmake_custom/bin" >> $GITHUB_PATH
 
       - name: Clone Repositories
         shell: bash
