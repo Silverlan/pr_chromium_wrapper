@@ -39,6 +39,8 @@ jobs:
           else
             echo "tag_name=$(TZ='Europe/Berlin' date +%F)" >> $GITHUB_OUTPUT
           fi
+          echo "FILES:"
+          ls -R
 
       - name: Run Python Build Scripts
         shell: bash
