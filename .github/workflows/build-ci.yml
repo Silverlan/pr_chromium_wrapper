@@ -25,10 +25,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Check out pr_chromium
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: 'Silverlan/pr_chromium'
-          branch: "feat/deps"
+          ref: "feat/deps"
 
       - name: Build Tag Name
         id: build_tag_name
