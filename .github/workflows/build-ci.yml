@@ -28,6 +28,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: 'Silverlan/pr_chromium'
+          branch: "feat/deps"
 
       - name: Build Tag Name
         id: build_tag_name
