@@ -28,6 +28,23 @@ jobs:
         if: runner.os == 'Linux'
         uses: jwlawson/actions-setup-cmake@v2
 
+      - name: Setup Custom Clang (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          # Due to a clang bug, we need a pre-release version of clang
+          curl -L https://github.com/Silverlan/clang_prebuilt/releases/download/2025-12-19/linux_x64.tar.xz -o clang_prebuilt.tar.xz
+          
+          mkdir clang_custom
+          tar -xf clang_prebuilt.tar.xz -C clang_custom --strip-components=1
+          
+          CLANG_BIN_PATH="$(pwd)/clang_custom/bin"
+          echo "$CLANG_BIN_PATH" >> $GITHUB_PATH
+          
+          echo "CC=$CLANG_BIN_PATH/clang" >> $GITHUB_ENV
+          echo "CXX=$CLANG_BIN_PATH/clang++" >> $GITHUB_ENV
+          
+          $CLANG_BIN_PATH/clang --version
+
       - name: Setup Custom CMake (Windows)
         if: runner.os == 'Windows'
         run: |
@@ -37,11 +54,7 @@ jobs:
           mkdir cmake_custom
           tar -xf cmake_custom.tar.xz -C cmake_custom --strip-components=1
           
-          # make this CMake available to all later steps in this job:
-          echo "$PWD/cmake_custom/bin" >> $GITHUB_PATH
-
-      - name: Verify CMake is the one we installed
-        run: cmake --version
+          echo "$(pwd)/cmake_custom/bin" >> $GITHUB_PATH
 
       - name: Clone Repositories
         shell: bash
