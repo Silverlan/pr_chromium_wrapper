@@ -24,7 +24,7 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Check out current repository
+      - name: Check out pr_chromium
         uses: actions/checkout@v4
         with:
           repository: 'Silverlan/pr_chromium'
