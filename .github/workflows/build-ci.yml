@@ -42,8 +42,6 @@ jobs:
           
           echo "CC=$CLANG_BIN_PATH/clang" >> $GITHUB_ENV
           echo "CXX=$CLANG_BIN_PATH/clang++" >> $GITHUB_ENV
-          
-          $CLANG_BIN_PATH/clang --version
 
       - name: Setup Custom CMake (Windows)
         if: runner.os == 'Windows'
@@ -78,6 +76,7 @@ jobs:
         shell: bash
         working-directory: ./pragma/modules/pr_chromium/build_scripts
         run: |
+          cmake --version
           python -m third_party.cef
           python -m third_party.chromium_wrapper
 
