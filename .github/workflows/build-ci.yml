@@ -24,8 +24,7 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Build Tag Name
-        id: build_tag_name
+      - name: Clone Repositories
         shell: bash
         run: |
           git clone -b develop https://github.com/Silverlan/pragma.git
