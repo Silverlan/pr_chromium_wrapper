@@ -104,6 +104,7 @@ jobs:
         shell: bash
         working-directory: ./pragma/modules/pr_chromium/build_scripts
         run: |
+          export PATH="$PWD/cmake_custom/bin:$PATH"
           cmake --version
           python -m third_party.cef
           python -m third_party.chromium_wrapper
