@@ -1,9 +1,9 @@
 name: Build and Release
 on:
   push:
-    branches: [ feat/deps ]
+    branches: [ main ]
   pull_request:
-    branches: [ feat/deps ]
+    branches: [ main ]
   workflow_dispatch:
     inputs:
   schedule:
@@ -88,7 +88,7 @@ jobs:
           # We need pragma for the core build_scripts
           git clone -b develop https://github.com/Silverlan/pragma.git
           cd pragma/modules
-          git clone -b feat/deps https://github.com/Silverlan/pr_chromium.git
+          git clone https://github.com/Silverlan/pr_chromium.git
 
       - name: Build Tag Name
         id: build_tag_name
