@@ -117,6 +117,16 @@ jobs:
 
       - name: Release Binaries
         uses: Silverlan/common_actions/release_nightly_binaries@main
+        if: runner.os == 'Windows'
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit: ${{ github.ref_name }}
+          tag: '${{ steps.build_tag_name.outputs.tag_name }}'
+          release_suffix: '-msvc'
+
+      - name: Release Binaries
+        uses: Silverlan/common_actions/release_nightly_binaries@main
+        if: runner.os == 'Linux'
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit: ${{ github.ref_name }}
