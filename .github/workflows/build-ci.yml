@@ -121,3 +121,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit: ${{ github.ref_name }}
           tag: '${{ steps.build_tag_name.outputs.tag_name }}'
+          release_suffix: '-clang'
