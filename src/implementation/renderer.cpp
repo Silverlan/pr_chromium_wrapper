@@ -237,7 +237,7 @@ static std::string cef_exit_code_to_string(int exitCode)
 		break;
 	}
 	static_assert(CEF_RESULT_CODE_NUM_VALUES == 7016, "Update this list when new enum values have been added in CEF!");
-	return "Unknown error (" + std::to_string(exitCode) + ")";
+	return "Unknown error (" + util::to_string(exitCode) + ")";
 }
 
 static bool initialize_chromium(bool subProcess, const char *pathToSubProcess, const char *cachePath, bool cpuRenderingOnly, std::string &outErr, int subprocessArgc = 0, char **subprocessArgv = nullptr)
@@ -273,7 +273,7 @@ static bool initialize_chromium(bool subProcess, const char *pathToSubProcess, c
 
 		auto result = CefExecuteProcess(args, g_process, nullptr); // ???
 		if(result >= 0) {
-			outErr = "CefExecuteProcess failed with error code " + std::to_string(result) + "!";
+			outErr = "CefExecuteProcess failed with error code " + util::to_string(result) + "!";
 			return false;
 		}
 		return true;
@@ -302,7 +302,7 @@ static bool initialize_chromium(bool subProcess, const char *pathToSubProcess, c
 		restore_prime_env(envs);
 #endif
 		auto exitCode = CefGetExitCode();
-		outErr = "CefInitialize failed: " + cef_exit_code_to_string(exitCode) + " (Exit code " + std::to_string(exitCode) + ")!";
+		outErr = "CefInitialize failed: " + cef_exit_code_to_string(exitCode) + " (Exit code " + util::to_string(exitCode) + ")!";
 		return false;
 	}
 #if defined(__linux__)

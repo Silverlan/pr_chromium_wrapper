@@ -111,7 +111,7 @@ bool cef::BrowserV8Handler::Execute(const CefString &name, CefRefPtr<CefV8Value>
 					delete static_cast<std::string *>(arg.data);
 					break;
 				default:
-					throw std::logic_error {"Chromium: Unexpected data value for JS value of type '" + std::to_string(static_cast<std::underlying_type_t<decltype(arg.type)>>(arg.type))};
+					throw std::logic_error {"Chromium: Unexpected data value for JS value of type '" + util::to_string(static_cast<std::underlying_type_t<decltype(arg.type)>>(arg.type))};
 					break;
 				}
 			}
